@@ -1,0 +1,13 @@
+{
+  "name": "chibashin.com",
+  "version": "1.0.0",
+  "siteVersion": "20260626-topic-toggle-reset",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node --check app.js && node --check server.js && node scripts/verify-config.mjs",
+    "dev": "node server.js",
+    "start": "node server.js",
+    "verify": "node scripts/verify-config.mjs"
+  }
+}

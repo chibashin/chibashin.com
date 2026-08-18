@@ -1,0 +1,23 @@
+SetEnvIf Request_URI "^/$" no_store_route Ngx_Cache_NoCacheMode
+SetEnvIf Request_URI "^/(chatgpt|openai|claude|gemini|openclaw|saved|generative-ai|ai-agent|llm|claude-topic|chatgpt-topic|openai-topic|gemini-topic|openclaw-topic|rag|multimodal|reasoning-model|physical-ai|security|foundation-model|figma|adobe|pencil|codex|canva|vscode|cursor|antigravity|design|development|microsoft|google|nvidia|medical-ai|education-ai|copyright|ai-regulation|qiita|zenn|aismiley|ledge-ai|web-designing|bing-ai-news|not-design-school|doorkeeper|born-digital)/?$" no_store_route Ngx_Cache_NoCacheMode
+SetEnvIf Request_URI "^/api/" Ngx_Cache_NoCacheMode
+SetEnvIf Request_URI "^/(sitemap\.xml$|robots\.txt$|index\.html$)" no_store_route Ngx_Cache_NoCacheMode
+SetEnvIf Request_URI "\.(css|js|webp|jpg|jpeg|png|gif|svg)$" static_asset Ngx_Cache_StaticMode
+
+<IfModule mod_headers.c>
+  Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0" env=no_store_route
+  Header set Pragma "no-cache" env=no_store_route
+  Header set Expires "0" env=no_store_route
+  Header set Cache-Control "public, max-age=604800" env=static_asset
+</IfModule>
+
+RewriteEngine On
+
+RewriteCond %{HTTPS} !on
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+RewriteRule ^(chatgpt|openai|claude|gemini|openclaw|saved|generative-ai|ai-agent|llm|claude-topic|chatgpt-topic|openai-topic|gemini-topic|openclaw-topic|rag|multimodal|reasoning-model|physical-ai|security|foundation-model|figma|adobe|pencil|codex|canva|vscode|cursor|antigravity|design|development|microsoft|google|nvidia|medical-ai|education-ai|copyright|ai-regulation|qiita|zenn|aismiley|ledge-ai|web-designing|bing-ai-news|not-design-school|doorkeeper|born-digital)/?$ /index.html [L]
